@@ -1,0 +1,32 @@
+name: starter
+description: A new Flutter project.
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.16.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  google_fonts: ^2.3.1
+  freezed_annotation: ^1.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^1.0.0
+  build_runner: ^2.1.10
+  freezed: ^1.1.1
+  json_serializable: ^6.1.6
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
