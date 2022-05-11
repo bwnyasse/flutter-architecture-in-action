@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:starter/src/models/models.dart';
 
 //
-import '../models/models.dart';
 import '../widgets/jobs.dart';
 import 'favorites.dart';
 
 class Master extends StatefulWidget {
-  
   const Master({Key? key}) : super(key: key);
 
   @override
@@ -14,8 +13,8 @@ class Master extends StatefulWidget {
 }
 
 class _MasterState extends State<Master> {
-  List<NavigationItem> navigationItems = getNavigationItemList();
-  late NavigationItem selectedItem;
+  //List<NavigationItem> navigationItems = getNavigationItemList();
+  String? selectedItem;
 
   late Widget currentWidgetView;
 
@@ -48,42 +47,42 @@ class _MasterState extends State<Master> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            for (var navigationItem in navigationItems) buildNavigationItem(navigationItem),
+            for (var navigationItemKey in navigationItems.keys) buildNavigationItem(navigationItemKey),
           ],
         ),
       ),
     );
   }
 
-  Widget buildNavigationItem(NavigationItem item) {
+  Widget buildNavigationItem(int navigationItemKey) {
     return GestureDetector(
       onTap: () {
         setState(() {
-          switch (item.title) {
-            case "Jobs":
+          switch (navigationItemKey) {
+            case 0:
               currentWidgetView = const Jobs();
               break;
-            case "Favorites":
+            case 1:
               currentWidgetView = const Favorites();
               break;
           }
-          selectedItem = item;
+          selectedItem = navigationItems[navigationItemKey];
         });
       },
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 300),
-        opacity: selectedItem == item ? 1.0 : 0.3,
+        opacity: selectedItem == navigationItems[navigationItemKey] ? 1.0 : 0.3,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              item.title,
+              navigationItems[navigationItemKey] ?? "",
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            selectedItem == item
+            selectedItem == navigationItems[navigationItemKey]
                 ? Column(
                     children: <Widget>[
                       const SizedBox(

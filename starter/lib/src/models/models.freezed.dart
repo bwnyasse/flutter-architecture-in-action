@@ -254,6 +254,181 @@ abstract class _Favorite implements Favorite {
       throw _privateConstructorUsedError;
 }
 
+JobResponse _$JobResponseFromJson(Map<String, dynamic> json) {
+  return _JobResponse.fromJson(json);
+}
+
+/// @nodoc
+class _$JobResponseTearOff {
+  const _$JobResponseTearOff();
+
+  _JobResponse call(
+      {@JsonKey(name: 'job-count') required int jobCount,
+      required List<Job> jobs}) {
+    return _JobResponse(
+      jobCount: jobCount,
+      jobs: jobs,
+    );
+  }
+
+  JobResponse fromJson(Map<String, Object?> json) {
+    return JobResponse.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $JobResponse = _$JobResponseTearOff();
+
+/// @nodoc
+mixin _$JobResponse {
+  @JsonKey(name: 'job-count')
+  int get jobCount => throw _privateConstructorUsedError;
+  List<Job> get jobs => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $JobResponseCopyWith<JobResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $JobResponseCopyWith<$Res> {
+  factory $JobResponseCopyWith(
+          JobResponse value, $Res Function(JobResponse) then) =
+      _$JobResponseCopyWithImpl<$Res>;
+  $Res call({@JsonKey(name: 'job-count') int jobCount, List<Job> jobs});
+}
+
+/// @nodoc
+class _$JobResponseCopyWithImpl<$Res> implements $JobResponseCopyWith<$Res> {
+  _$JobResponseCopyWithImpl(this._value, this._then);
+
+  final JobResponse _value;
+  // ignore: unused_field
+  final $Res Function(JobResponse) _then;
+
+  @override
+  $Res call({
+    Object? jobCount = freezed,
+    Object? jobs = freezed,
+  }) {
+    return _then(_value.copyWith(
+      jobCount: jobCount == freezed
+          ? _value.jobCount
+          : jobCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      jobs: jobs == freezed
+          ? _value.jobs
+          : jobs // ignore: cast_nullable_to_non_nullable
+              as List<Job>,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$JobResponseCopyWith<$Res>
+    implements $JobResponseCopyWith<$Res> {
+  factory _$JobResponseCopyWith(
+          _JobResponse value, $Res Function(_JobResponse) then) =
+      __$JobResponseCopyWithImpl<$Res>;
+  @override
+  $Res call({@JsonKey(name: 'job-count') int jobCount, List<Job> jobs});
+}
+
+/// @nodoc
+class __$JobResponseCopyWithImpl<$Res> extends _$JobResponseCopyWithImpl<$Res>
+    implements _$JobResponseCopyWith<$Res> {
+  __$JobResponseCopyWithImpl(
+      _JobResponse _value, $Res Function(_JobResponse) _then)
+      : super(_value, (v) => _then(v as _JobResponse));
+
+  @override
+  _JobResponse get _value => super._value as _JobResponse;
+
+  @override
+  $Res call({
+    Object? jobCount = freezed,
+    Object? jobs = freezed,
+  }) {
+    return _then(_JobResponse(
+      jobCount: jobCount == freezed
+          ? _value.jobCount
+          : jobCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      jobs: jobs == freezed
+          ? _value.jobs
+          : jobs // ignore: cast_nullable_to_non_nullable
+              as List<Job>,
+    ));
+  }
+}
+
+/// @nodoc
+
+@JsonSerializable(explicitToJson: true)
+class _$_JobResponse implements _JobResponse {
+  _$_JobResponse(
+      {@JsonKey(name: 'job-count') required this.jobCount, required this.jobs});
+
+  factory _$_JobResponse.fromJson(Map<String, dynamic> json) =>
+      _$$_JobResponseFromJson(json);
+
+  @override
+  @JsonKey(name: 'job-count')
+  final int jobCount;
+  @override
+  final List<Job> jobs;
+
+  @override
+  String toString() {
+    return 'JobResponse(jobCount: $jobCount, jobs: $jobs)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _JobResponse &&
+            const DeepCollectionEquality().equals(other.jobCount, jobCount) &&
+            const DeepCollectionEquality().equals(other.jobs, jobs));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(jobCount),
+      const DeepCollectionEquality().hash(jobs));
+
+  @JsonKey(ignore: true)
+  @override
+  _$JobResponseCopyWith<_JobResponse> get copyWith =>
+      __$JobResponseCopyWithImpl<_JobResponse>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_JobResponseToJson(this);
+  }
+}
+
+abstract class _JobResponse implements JobResponse {
+  factory _JobResponse(
+      {@JsonKey(name: 'job-count') required int jobCount,
+      required List<Job> jobs}) = _$_JobResponse;
+
+  factory _JobResponse.fromJson(Map<String, dynamic> json) =
+      _$_JobResponse.fromJson;
+
+  @override
+  @JsonKey(name: 'job-count')
+  int get jobCount;
+  @override
+  List<Job> get jobs;
+  @override
+  @JsonKey(ignore: true)
+  _$JobResponseCopyWith<_JobResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 Job _$JobFromJson(Map<String, dynamic> json) {
   return _Job.fromJson(json);
 }
@@ -263,15 +438,15 @@ class _$JobTearOff {
   const _$JobTearOff();
 
   _Job call(
-      {required String id,
+      {required int id,
       required String url,
       required String title,
-      required String company,
-      required String logo,
+      @JsonKey(name: 'company_name') required String company,
+      @JsonKey(name: 'company_logo') required String logo,
       required String category,
-      required String type,
-      required String publication,
-      required String location,
+      @JsonKey(name: 'job_type') required String type,
+      @JsonKey(name: 'publication_date') required String publication,
+      @JsonKey(name: 'candidate_required_location') required String location,
       required String salary,
       required String description}) {
     return _Job(
@@ -299,14 +474,19 @@ const $Job = _$JobTearOff();
 
 /// @nodoc
 mixin _$Job {
-  String get id => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
   String get url => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
+  @JsonKey(name: 'company_name')
   String get company => throw _privateConstructorUsedError;
+  @JsonKey(name: 'company_logo')
   String get logo => throw _privateConstructorUsedError;
   String get category => throw _privateConstructorUsedError;
+  @JsonKey(name: 'job_type')
   String get type => throw _privateConstructorUsedError;
+  @JsonKey(name: 'publication_date')
   String get publication => throw _privateConstructorUsedError;
+  @JsonKey(name: 'candidate_required_location')
   String get location => throw _privateConstructorUsedError;
   String get salary => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
@@ -321,15 +501,15 @@ abstract class $JobCopyWith<$Res> {
   factory $JobCopyWith(Job value, $Res Function(Job) then) =
       _$JobCopyWithImpl<$Res>;
   $Res call(
-      {String id,
+      {int id,
       String url,
       String title,
-      String company,
-      String logo,
+      @JsonKey(name: 'company_name') String company,
+      @JsonKey(name: 'company_logo') String logo,
       String category,
-      String type,
-      String publication,
-      String location,
+      @JsonKey(name: 'job_type') String type,
+      @JsonKey(name: 'publication_date') String publication,
+      @JsonKey(name: 'candidate_required_location') String location,
       String salary,
       String description});
 }
@@ -360,7 +540,7 @@ class _$JobCopyWithImpl<$Res> implements $JobCopyWith<$Res> {
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       url: url == freezed
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
@@ -411,15 +591,15 @@ abstract class _$JobCopyWith<$Res> implements $JobCopyWith<$Res> {
       __$JobCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String id,
+      {int id,
       String url,
       String title,
-      String company,
-      String logo,
+      @JsonKey(name: 'company_name') String company,
+      @JsonKey(name: 'company_logo') String logo,
       String category,
-      String type,
-      String publication,
-      String location,
+      @JsonKey(name: 'job_type') String type,
+      @JsonKey(name: 'publication_date') String publication,
+      @JsonKey(name: 'candidate_required_location') String location,
       String salary,
       String description});
 }
@@ -451,7 +631,7 @@ class __$JobCopyWithImpl<$Res> extends _$JobCopyWithImpl<$Res>
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       url: url == freezed
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
@@ -503,34 +683,39 @@ class _$_Job implements _Job {
       {required this.id,
       required this.url,
       required this.title,
-      required this.company,
-      required this.logo,
+      @JsonKey(name: 'company_name') required this.company,
+      @JsonKey(name: 'company_logo') required this.logo,
       required this.category,
-      required this.type,
-      required this.publication,
-      required this.location,
+      @JsonKey(name: 'job_type') required this.type,
+      @JsonKey(name: 'publication_date') required this.publication,
+      @JsonKey(name: 'candidate_required_location') required this.location,
       required this.salary,
       required this.description});
 
   factory _$_Job.fromJson(Map<String, dynamic> json) => _$$_JobFromJson(json);
 
   @override
-  final String id;
+  final int id;
   @override
   final String url;
   @override
   final String title;
   @override
+  @JsonKey(name: 'company_name')
   final String company;
   @override
+  @JsonKey(name: 'company_logo')
   final String logo;
   @override
   final String category;
   @override
+  @JsonKey(name: 'job_type')
   final String type;
   @override
+  @JsonKey(name: 'publication_date')
   final String publication;
   @override
+  @JsonKey(name: 'candidate_required_location')
   final String location;
   @override
   final String salary;
@@ -590,37 +775,42 @@ class _$_Job implements _Job {
 
 abstract class _Job implements Job {
   const factory _Job(
-      {required String id,
+      {required int id,
       required String url,
       required String title,
-      required String company,
-      required String logo,
+      @JsonKey(name: 'company_name') required String company,
+      @JsonKey(name: 'company_logo') required String logo,
       required String category,
-      required String type,
-      required String publication,
-      required String location,
+      @JsonKey(name: 'job_type') required String type,
+      @JsonKey(name: 'publication_date') required String publication,
+      @JsonKey(name: 'candidate_required_location') required String location,
       required String salary,
       required String description}) = _$_Job;
 
   factory _Job.fromJson(Map<String, dynamic> json) = _$_Job.fromJson;
 
   @override
-  String get id;
+  int get id;
   @override
   String get url;
   @override
   String get title;
   @override
+  @JsonKey(name: 'company_name')
   String get company;
   @override
+  @JsonKey(name: 'company_logo')
   String get logo;
   @override
   String get category;
   @override
+  @JsonKey(name: 'job_type')
   String get type;
   @override
+  @JsonKey(name: 'publication_date')
   String get publication;
   @override
+  @JsonKey(name: 'candidate_required_location')
   String get location;
   @override
   String get salary;

@@ -3,22 +3,21 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'models.freezed.dart';
 part 'models.g.dart';
 
-class NavigationItem {
-  String title;
+const Map<int, String> categoryName = {
+  0: "Software Development",
+  1: "DevOps",
+  2: "Product",
+  3: "Design",
+  4: "Marketing",
+};
 
-  NavigationItem(this.title);
-}
-
-List<NavigationItem> getNavigationItemList() {
-  return <NavigationItem>[
-    NavigationItem("Jobs"),
-    NavigationItem("Favorites"),
-  ];
-}
+const Map<int, String> navigationItems = {
+  0: "Jobs",
+  1: "Favorites",
+};
 
 @freezed
 class Favorite with _$Favorite {
-
   const factory Favorite({
     required String position,
     required String company,
@@ -41,18 +40,28 @@ class Favorite with _$Favorite {
 }*/
 
 @freezed
-class Job with _$Job {
+class JobResponse with _$JobResponse {
+  @JsonSerializable(explicitToJson: true)
+  factory JobResponse({
+    @JsonKey(name: 'job-count') required int jobCount,
+    required List<Job> jobs,
+  }) = _JobResponse;
 
+  factory JobResponse.fromJson(Map<String, Object?> json) => _$JobResponseFromJson(json);
+}
+
+@freezed
+class Job with _$Job {
   const factory Job({
-    required String id,
+    required int id,
     required String url,
     required String title,
-    required String company,
-    required String logo,
+    @JsonKey(name: 'company_name') required String company,
+    @JsonKey(name: 'company_logo') required String logo,
     required String category,
-    required String type,
-    required String publication,
-    required String location,
+    @JsonKey(name: 'job_type') required String type,
+    @JsonKey(name: 'publication_date') required String publication,
+    @JsonKey(name: 'candidate_required_location') required String location,
     required String salary,
     required String description,
   }) = _Job;
