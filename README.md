@@ -2,7 +2,9 @@
 
 The objective of this repo is to implement the different project architectures in Flutter
 
-![Job finder app in flutter](app.png)
+![Job finder app in flutter - 1](screenshots/1.png)
+![Job finder app in flutter - 2](screenshots/2.png)
+![Job finder app in flutter - 3](screenshots/3.png)
 
 ## The application 
 
