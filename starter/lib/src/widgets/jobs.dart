@@ -4,7 +4,7 @@ import 'package:starter/src/widgets/jobs/recommandation_job.dart';
 
 //
 import '../models/models.dart';
-import '../services/services.dart';
+import '../services/services.dart' as service;
 import 'jobs/drawer_job.dart';
 
 class Jobs extends StatefulWidget {
@@ -17,6 +17,7 @@ class Jobs extends StatefulWidget {
 class _JobsState extends State<Jobs> {
   List<Job> jobs = [];
   List<Job> recommandedJobs = [];
+  String? category;
 
   @override
   void initState() {
@@ -25,10 +26,12 @@ class _JobsState extends State<Jobs> {
   }
 
   Future<void> loadJobs() async {
-    JobResponse jobResponse = await getRemoteJobs();
+    JobResponse jobResponse = await service.getRemoteJobs();
+    int categoryIndex = await service.readCategory() ?? 0;
     setState(() {
+      category = categoryName[categoryIndex];
       jobs = jobResponse.jobs;
-      recommandedJobs = getRecommandationsJobs(jobs);
+      recommandedJobs = service.getRecommandationsJobs(jobs, category: category);
     });
   }
 
@@ -42,18 +45,6 @@ class _JobsState extends State<Jobs> {
         ),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
-        /* actions: <Widget>[
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.search,
-              )),
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.filter_list,
-              ))
-        ],*/
       ),
       drawer: const DrawerJob(),
       body: Column(
@@ -64,20 +55,6 @@ class _JobsState extends State<Jobs> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  /*Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                    child: Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.start,
-                      spacing: 16,
-                      runSpacing: 16,
-                      children: [
-                        buildFilterOption("Developer"),
-                        buildFilterOption("San Francisco"),
-                        buildFilterOption(r"$30 - 50h"),
-                        buildFilterOption("Part-Time"),
-                      ],
-                    ),
-                  ),*/
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                     child: Text(
@@ -88,11 +65,11 @@ class _JobsState extends State<Jobs> {
                       ),
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 32),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 32),
                     child: Text(
-                      "Software Development",
-                      style: TextStyle(
+                      category ?? '',
+                      style: const TextStyle(
                         fontSize: 14,
                       ),
                     ),

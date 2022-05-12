@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:starter/src/models/models.dart';
+import 'package:starter/src/services/services.dart' as service;
 
 class SettingsCategoryScreen extends StatefulWidget {
   const SettingsCategoryScreen({Key? key}) : super(key: key);
@@ -10,7 +11,20 @@ class SettingsCategoryScreen extends StatefulWidget {
 }
 
 class _SettingsCategoryScreenState extends State<SettingsCategoryScreen> {
-  int categoryIndex = 0;
+  int? categoryIndex = 0;
+
+  @override
+  void initState() {
+    readCategory();
+    super.initState();
+  }
+
+  Future<void> readCategory() async {
+    int? value = await service.readCategory();
+    setState(() {
+      categoryIndex = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +66,7 @@ class _SettingsCategoryScreenState extends State<SettingsCategoryScreen> {
   void changeCategory(int index) {
     setState(() {
       categoryIndex = index;
+      service.writeCategory(categoryIndex);
     });
   }
 }

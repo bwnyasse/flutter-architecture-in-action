@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'package:starter/src/models/models.dart';
 import 'package:starter/src/widgets/settings/settings_category_screen.dart';
+
+import '../../services/services.dart' as service;
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -10,6 +13,22 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  String? category;
+
+  @override
+  void initState() {
+    loadCategory();
+    print("here");
+    super.initState();
+  }
+
+  Future<void> loadCategory() async {
+    int categoryIndex = await service.readCategory() ?? 0;
+    setState(() {
+      category = categoryName[categoryIndex];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +47,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             tiles: [
               SettingsTile.navigation(
                 title: const Text('Categories'),
-                value: const Text('Software Development'),
+                value: Text(category ?? ''),
                 leading: const Icon(Icons.computer),
                 onPressed: (context) {
                   Navigator.of(context).push(MaterialPageRoute(

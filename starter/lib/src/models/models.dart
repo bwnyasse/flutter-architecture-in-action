@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'models.freezed.dart';
 part 'models.g.dart';
 
-const Map<int, String> categoryName = {
+const Map<int, String?> categoryName = {
   0: "Software Development",
   1: "DevOps",
   2: "Product",

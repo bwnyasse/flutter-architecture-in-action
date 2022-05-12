@@ -1,12 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:starter/src/services/services.dart' as service;
 
 //
 import '../models/models.dart';
+import 'jobs/apply_job.dart';
 
-class JobDetail extends StatelessWidget {
+class JobDetail extends StatefulWidget {
   final Job job;
 
   const JobDetail({Key? key, required this.job}) : super(key: key);
+
+  @override
+  State<JobDetail> createState() => _JobDetailState();
+}
+
+class _JobDetailState extends State<JobDetail> {
+  List<String> favorites = [];
+  bool isFavorite = false;
+
+  @override
+  void initState() {
+    loadFavorites();
+    super.initState();
+  }
+
+  Future<void> loadFavorites() async {
+    final values = await service.readFavorites();
+    setState(() {
+      favorites = values;
+      isFavorite = favorites.contains(widget.job.id.toString());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +42,7 @@ class JobDetail extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          job.company,
+          widget.job.company,
           style: const TextStyle(
             color: Colors.black,
           ),
@@ -51,7 +76,7 @@ class JobDetail extends StatelessWidget {
                   width: 50,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(job.logo),
+                      image: NetworkImage(widget.job.logo),
                       fit: BoxFit.fitWidth,
                     ),
                     borderRadius: const BorderRadius.all(
@@ -65,7 +90,7 @@ class JobDetail extends StatelessWidget {
               ),
               Center(
                 child: Text(
-                  job.title,
+                  widget.job.title,
                   style: const TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
@@ -77,7 +102,7 @@ class JobDetail extends StatelessWidget {
               ),
               Center(
                 child: Text(
-                  job.location,
+                  widget.job.location,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -101,7 +126,7 @@ class JobDetail extends StatelessWidget {
                       ),
                       child: Center(
                         child: Text(
-                          job.category,
+                          widget.job.category,
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -113,9 +138,9 @@ class JobDetail extends StatelessWidget {
                   Expanded(
                     child: Center(
                       child: Text(
-                        r"$" + job.salary + "/h",
+                        widget.job.salary,
                         style: const TextStyle(
-                          fontSize: 36,
+                          fontSize: 18,
                         ),
                       ),
                     ),
@@ -126,7 +151,7 @@ class JobDetail extends StatelessWidget {
                 height: 32,
               ),
               const Text(
-                "Requirements",
+                "Description",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -138,9 +163,7 @@ class JobDetail extends StatelessWidget {
               Expanded(
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
-                  child: Column(
-                    children: buildRequirements(),
-                  ),
+                  child: Html(data: widget.job.description),
                 ),
               ),
               const SizedBox(
@@ -148,13 +171,21 @@ class JobDetail extends StatelessWidget {
               ),
               Row(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     height: 60,
                     width: 60,
                     child: Center(
-                      child: Icon(
-                        Icons.favorite_border,
-                        size: 28,
+                      child: IconButton(
+                        icon: isFavorite ? const Icon(Icons.favorite) : const Icon(Icons.favorite_border),
+                        onPressed: () async {
+                          await service.writeFavorites(
+                            id: widget.job.id,
+                            add: !isFavorite,
+                          );
+                          setState(() {
+                            isFavorite = !isFavorite;
+                          });
+                        },
                       ),
                     ),
                   ),
@@ -162,23 +193,21 @@ class JobDetail extends StatelessWidget {
                     width: 16,
                   ),
                   Expanded(
-                    child: Container(
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: Colors.red[500],
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          "Apply Now",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
+                    child: Center(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            textStyle: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        )),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ApplyJob(url: widget.job.url)),
+                          );
+                        },
+                        child: const Text("Apply Now"),
                       ),
                     ),
                   ),
@@ -187,45 +216,6 @@ class JobDetail extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  List<Widget> buildRequirements() {
-    List<Widget> list = [];
-    for (var i = 0; i < getJobsRequirements().length; i++) {
-      list.add(buildRequirement(getJobsRequirements()[i]));
-    }
-    return list;
-  }
-
-  Widget buildRequirement(String requirement) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        children: [
-          Container(
-            width: 4,
-            height: 4,
-            decoration: const BoxDecoration(
-              color: Colors.grey,
-              shape: BoxShape.circle,
-            ),
-          ),
-          const SizedBox(
-            width: 16,
-          ),
-          Flexible(
-            child: Text(
-              requirement,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
