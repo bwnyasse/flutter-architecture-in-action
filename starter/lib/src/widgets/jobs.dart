@@ -8,14 +8,14 @@ import '../services/services.dart' as service;
 import 'jobs/drawer_job.dart';
 
 class Jobs extends StatefulWidget {
-  const Jobs({Key? key}) : super(key: key);
+  final List<Job> jobs;
+  const Jobs({Key? key, required this.jobs}) : super(key: key);
 
   @override
   _JobsState createState() => _JobsState();
 }
 
 class _JobsState extends State<Jobs> {
-  List<Job> jobs = [];
   List<Job> recommandedJobs = [];
   String? category;
 
@@ -26,12 +26,10 @@ class _JobsState extends State<Jobs> {
   }
 
   Future<void> loadJobs() async {
-    JobResponse jobResponse = await service.getRemoteJobs();
     int categoryIndex = await service.readCategory() ?? 0;
     setState(() {
       category = categoryName[categoryIndex];
-      jobs = jobResponse.jobs;
-      recommandedJobs = service.getRecommandationsJobs(jobs, category: category);
+      recommandedJobs = service.getRecommandationsJobs(widget.jobs, category: category);
     });
   }
 
@@ -100,7 +98,7 @@ class _JobsState extends State<Jobs> {
                     padding: const EdgeInsets.symmetric(horizontal: 32),
                     child: Column(
                       children: [
-                        for (var i = jobs.length - 1; i > -1; i--) RecentJob(job: jobs[i]),
+                        for (var i = widget.jobs.length - 1; i > -1; i--) RecentJob(job: widget.jobs[i]),
                       ],
                     ),
                   ),

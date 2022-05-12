@@ -4,6 +4,7 @@ import 'package:starter/src/models/models.dart';
 //
 import '../widgets/jobs.dart';
 import 'favorites.dart';
+import '../services/services.dart' as service;
 
 class Master extends StatefulWidget {
   const Master({Key? key}) : super(key: key);
@@ -13,17 +14,25 @@ class Master extends StatefulWidget {
 }
 
 class _MasterState extends State<Master> {
-  //List<NavigationItem> navigationItems = getNavigationItemList();
   String? selectedItem;
 
-  late Widget currentWidgetView;
+  Widget currentWidgetView = const Jobs(jobs: []);
+
+  List<Job> jobs = [];
 
   @override
   void initState() {
+    loadJobs();
     super.initState();
+    setState(() {});
+  }
+
+  Future<void> loadJobs() async {
+    JobResponse jobResponse = await service.getRemoteJobs();
     setState(() {
+      jobs = jobResponse.jobs;
       selectedItem = navigationItems[0];
-      currentWidgetView = const Jobs();
+      currentWidgetView = Jobs(jobs: jobs);
     });
   }
 
@@ -60,10 +69,10 @@ class _MasterState extends State<Master> {
         setState(() {
           switch (navigationItemKey) {
             case 0:
-              currentWidgetView = const Jobs();
+              currentWidgetView = Jobs(jobs: jobs);
               break;
             case 1:
-              currentWidgetView = const Favorites();
+              currentWidgetView = Favorites(jobs: jobs);
               break;
           }
           selectedItem = navigationItems[navigationItemKey];

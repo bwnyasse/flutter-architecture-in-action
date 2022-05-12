@@ -6,23 +6,6 @@ part of 'models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_Favorite _$$_FavoriteFromJson(Map<String, dynamic> json) => _$_Favorite(
-      position: json['position'] as String,
-      company: json['company'] as String,
-      status: json['status'] as String,
-      price: json['price'] as String,
-      logo: json['logo'] as String,
-    );
-
-Map<String, dynamic> _$$_FavoriteToJson(_$_Favorite instance) =>
-    <String, dynamic>{
-      'position': instance.position,
-      'company': instance.company,
-      'status': instance.status,
-      'price': instance.price,
-      'logo': instance.logo,
-    };
-
 _$_JobResponse _$$_JobResponseFromJson(Map<String, dynamic> json) =>
     _$_JobResponse(
       jobCount: json['job-count'] as int,

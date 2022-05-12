@@ -24,6 +24,12 @@ List<Job> getRecommandationsJobs(List<Job> jobs, {String? category = 'Software D
   return recommandedJobs;
 }
 
+Future<List<Job>> loadFavoritesJobs(List<Job> jobs) async {
+  final List<String> items = await readFavorites();
+
+  return jobs.where((element) => items.contains(element.id.toString())).toList();
+}
+
 Future<void> writeCategory(int? categoryIndex) async {
   // Obtain shared preferences.
   final prefs = await SharedPreferences.getInstance();

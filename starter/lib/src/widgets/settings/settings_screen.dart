@@ -18,7 +18,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     loadCategory();
-    print("here");
     super.initState();
   }
 

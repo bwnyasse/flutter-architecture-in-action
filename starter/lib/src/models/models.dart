@@ -17,29 +17,6 @@ const Map<int, String> navigationItems = {
 };
 
 @freezed
-class Favorite with _$Favorite {
-  const factory Favorite({
-    required String position,
-    required String company,
-    required String status,
-    required String price,
-    required String logo,
-  }) = _Favorite;
-
-  factory Favorite.fromJson(Map<String, Object?> json) => _$FavoriteFromJson(json);
-}
-
-/*List<Favorite> getFavorites() {
-  return <Favorite>[
-    const Favorite("Flutter UI / UX Designer", "Nike Inc.", "Delivered", "40", "assets/images/nike.png"),
-    const Favorite("Product Designer", "Google LLC", "Opened", "60", "assets/images/google.png"),
-    const Favorite("UI / UX Designer", "Uber Technologies Inc.", "Cancelled", "55", "assets/images/uber.png"),
-    const Favorite("Lead UI / UX Designer", "Apple Inc.", "Delivered", "80", "assets/images/apple.png"),
-    const Favorite("Flutter UI Designer", "Amazon Inc.", "Not selected", "60", "assets/images/amazon.jpg"),
-  ];
-}*/
-
-@freezed
 class JobResponse with _$JobResponse {
   @JsonSerializable(explicitToJson: true)
   factory JobResponse({

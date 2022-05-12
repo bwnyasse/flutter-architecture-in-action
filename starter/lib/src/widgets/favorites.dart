@@ -1,53 +1,72 @@
 import 'package:flutter/material.dart';
 
-//
 import '../models/models.dart';
+import '../services/services.dart' as service;
+
+//
 
 class Favorites extends StatefulWidget {
-  const Favorites({Key? key}) : super(key: key);
+  final List<Job> jobs;
+
+  const Favorites({Key? key, required this.jobs}) : super(key: key);
 
   @override
   _FavoritesState createState() => _FavoritesState();
 }
 
 class _FavoritesState extends State<Favorites> {
-  //List<Favorite> favorite = getFavorites();
-  List<Favorite> favorite = [];
+  List<Job> favorites = [];
+
+  @override
+  void initState() {
+    loadFavorites();
+    super.initState();
+  }
+
+  Future<void> loadFavorites() async {
+    final values = await service.loadFavoritesJobs(widget.jobs);
+    setState(() {
+      favorites = values;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 32, left: 32, top: 48, bottom: 32),
-            child: Text(
-              "Your \nfavorites (" + favorite.length.toString() + ")",
-              style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, height: 1.2),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Your favorites ${favorites.length.toString()} )",
+          style: const TextStyle(fontWeight: FontWeight.bold, height: 1.2),
+        ),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black, 
+      ),
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 32, left: 32, bottom: 8),
+              child: Column(
+                children: buildFavorites(),
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 32, left: 32, bottom: 8),
-            child: Column(
-              children: buildFavorites(),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   List<Widget> buildFavorites() {
     List<Widget> list = [];
-    for (var i = 0; i < favorite.length; i++) {
-      list.add(buildFavorite(favorite[i]));
+    for (var i = 0; i < favorites.length; i++) {
+      list.add(buildFavorite(favorites[i]));
     }
     return list;
   }
 
-  Widget buildFavorite(Favorite application) {
+  Widget buildFavorite(Job application) {
     return Container(
       padding: const EdgeInsets.all(24),
       margin: const EdgeInsets.symmetric(vertical: 4),
@@ -66,7 +85,7 @@ class _FavoritesState extends State<Favorites> {
                 width: 60,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(application.logo),
+                    image: NetworkImage(application.logo),
                     fit: BoxFit.fitWidth,
                   ),
                   borderRadius: const BorderRadius.all(
@@ -81,7 +100,7 @@ class _FavoritesState extends State<Favorites> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      application.position,
+                      application.title,
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -98,9 +117,6 @@ class _FavoritesState extends State<Favorites> {
                   ],
                 ),
               )),
-              const Icon(
-                Icons.more_vert,
-              ),
             ],
           ),
           const SizedBox(
@@ -109,36 +125,11 @@ class _FavoritesState extends State<Favorites> {
           Row(
             children: [
               Expanded(
-                child: Container(
-                  height: 45,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      application.status,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: application.status == "Opened"
-                            ? Colors.green[500]
-                            : application.status == "Cancelled"
-                                ? Colors.red[500]
-                                : Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
                 child: Center(
                   child: Text(
-                    r"$" + application.price + "/h",
+                    application.salary,
                     style: const TextStyle(
-                      fontSize: 24,
+                      fontSize: 16,
                     ),
                   ),
                 ),

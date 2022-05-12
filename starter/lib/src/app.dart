@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.montserratTextTheme(),
       ),
       debugShowCheckedModeBanner: false,
-      home: const Master(),
+      home:  const Master(),
     );
   }
 }
