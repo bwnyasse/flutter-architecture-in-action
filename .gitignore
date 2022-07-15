@@ -36,3 +36,11 @@ doc/api/
 *.js_
 *.js.deps
 *.js.map
+
+# ignore platform
+
+ios/
+macos/
+windows/
+linux/
+android/

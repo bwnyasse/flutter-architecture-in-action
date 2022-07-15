@@ -22,9 +22,9 @@ class _MasterState extends State<Master> {
 
   @override
   void initState() {
-    loadJobs();
     super.initState();
-    setState(() {});
+    loadJobs();
+    // setState(() {});
   }
 
   Future<void> loadJobs() async {

@@ -21,8 +21,8 @@ class _JobsState extends State<Jobs> {
 
   @override
   void initState() {
-    loadJobs();
     super.initState();
+    loadJobs();
   }
 
   Future<void> loadJobs() async {
@@ -53,37 +53,39 @@ class _JobsState extends State<Jobs> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                    child: Text(
-                      "Recommended for you",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                  if (recommandedJobs.isNotEmpty) ...[
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                      child: Text(
+                        "Recommended for you",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 32),
-                    child: Text(
-                      category ?? '',
-                      style: const TextStyle(
-                        fontSize: 14,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 32),
+                      child: Text(
+                        category ?? '',
+                        style: const TextStyle(
+                          fontSize: 14,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 190,
-                    child: ListView(
-                      physics: const BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      children: <Widget>[
-                        const SizedBox(width: 32),
-                        for (var i = 0; i < recommandedJobs.length; i++) RecommandationJob(job: recommandedJobs[i]),
-                        const SizedBox(width: 16),
-                      ],
+                    SizedBox(
+                      height: 190,
+                      child: ListView(
+                        physics: const BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        children: <Widget>[
+                          const SizedBox(width: 32),
+                          for (var i = 0; i < recommandedJobs.length; i++) RecommandationJob(job: recommandedJobs[i]),
+                          const SizedBox(width: 16),
+                        ],
+                      ),
                     ),
-                  ),
+                  ],
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                     child: Text(

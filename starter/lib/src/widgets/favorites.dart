@@ -35,7 +35,7 @@ class _FavoritesState extends State<Favorites> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Your favorites ${favorites.length.toString()} )",
+          "Your favorites ( ${favorites.length.toString()} )",
           style: const TextStyle(fontWeight: FontWeight.bold, height: 1.2),
         ),
         backgroundColor: Colors.white,
